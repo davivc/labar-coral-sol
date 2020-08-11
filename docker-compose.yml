@@ -1,0 +1,24 @@
+version: "3.4"
+services:
+  regridnetcdf:
+    build: 
+      context: ./docker
+      dockerfile: ./regrid.Dockerfile
+    image: davicandido/python-netcdf
+    container_name: regridnetcdf
+    stdin_open: true
+    tty: true
+    entrypoint:
+      - python
+    environment: 
+      COMPOSE_CONVERT_WINDOWS_PATHS: 1
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./src:/code
+      - ./data:/code/data
+    networks:
+      ecs-local-network: null
+networks:
+  ecs-local-network:
+    external: true
