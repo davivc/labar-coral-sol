@@ -1,5 +1,22 @@
 version: "3.4"
 services:
+  getdata:
+    build: 
+      context: ./docker
+      dockerfile: ./getdata.Dockerfile
+    image: davicandido/python-copernicus
+    container_name: getdata
+    stdin_open: true
+    tty: true
+    entrypoint:
+      - python
+    env_file: .env
+    environment: 
+      COMPOSE_CONVERT_WINDOWS_PATHS: 1
+    volumes:
+      - ./data:/code/data
+    networks:
+      ecs-local-network: null
   regridnetcdf:
     build: 
       context: ./docker
@@ -17,6 +34,24 @@ services:
     volumes:
       - ./src:/code
       - ./data:/code/data
+    networks:
+      ecs-local-network: null
+  parcels:
+    build: 
+      context: ./docker
+      dockerfile: ./parcels.Dockerfile
+    image: davicandido/python-condas-parcels
+    container_name: parcels
+    stdin_open: true
+    tty: true
+    env_file: .env
+    environment: 
+      COMPOSE_CONVERT_WINDOWS_PATHS: 1
+    volumes:
+      - ./src/notebooks:/notebooks
+      - ./data:/data
+    ports:
+      - "8888:8888"
     networks:
       ecs-local-network: null
 networks:

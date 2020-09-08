@@ -3,5 +3,8 @@
 		{
 			"path": "."
 		}
-	]
+	],
+	"settings": {
+		"python.dataScience.jupyterServerURI": "http://08f5e46c0a8c:8888/"
+	}
 }
