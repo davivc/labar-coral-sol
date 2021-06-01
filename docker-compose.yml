@@ -9,7 +9,10 @@ services:
     stdin_open: true
     tty: true
     entrypoint:
-      - python
+      - /bin/bash
+    # command:
+    #   - /bin/bash
+    #   - getdata.sh
     env_file: .env
     environment: 
       COMPOSE_CONVERT_WINDOWS_PATHS: 1
@@ -41,6 +44,14 @@ services:
       context: ./docker
       dockerfile: ./parcels.Dockerfile
     image: davicandido/python-condas-parcels
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '8'
+    #       memory: 8192M
+    #     reservations:
+    #       cpus: '4'
+    #       memory: 4096M
     container_name: parcels
     stdin_open: true
     tty: true

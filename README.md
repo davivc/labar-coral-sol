@@ -36,7 +36,7 @@ This command will retrieve nc data from 1993 to 2018 for the variables thetao, u
 Run regrid to downscale NetCDF files. This step will regrid the nc files from ~9km to 3km, then 3km to 1km and finally will regrid 1km to 500m. It will take approximately 10 minutes on a pc with 16GB RAM.
 
 ```
-docker-compose run --rm regridnetcdf regrid.py all
+docker-compose run --rm regridnetcdf regrid.py
 ```
 
 Or you can select one year only
@@ -44,16 +44,39 @@ Or you can select one year only
 docker-compose run --rm regridnetcdf regrid.py YEAR
 ```
 
-## 4. Parcels
+## 4. Start the notebooks
 
-To see the parcels advection on action just fire up our stack
 ```
 docker-compose up
 ```
 
 After that go to the url shown in your terminal and navigate through the notebooks.
 
+### Validation
+To validate our regrid we will use data from PNBOIA at https://www.marinha.mil.br/chm/dados-do-pnboiaboias/boia-itajai
+
+DMS: Lat 27°24,35'S / Lon 047°15,93'W
+DD: Lat 27.4° / Lon 47.2655°
+
+### Parcels
+To see the parcels advection on action just fire up our stack
+
 # Others
 
 ## Papers
 [1] Engler R, Guisan A. MigClim: Predicting plant distribution and dispersal in a changing climate. Divers Distrib 2009;15:590–601. doi:10.1111/j.1472-4642.2009.00566.x.
+
+
+## Platform offshore
+-26.767222 -46.767264
+
+
+## Uncertaintity
+Incorporar desvio padrão da validação
+Esquecer função da temperatura
+Assentar protegido cor vermelha
+Assentar exposto cor amarela
+Validação
+Preditivo
+
+Taxa de mortalidade progressiva

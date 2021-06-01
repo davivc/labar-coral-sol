@@ -5,6 +5,7 @@
 		}
 	],
 	"settings": {
-		"python.dataScience.jupyterServerURI": "http://08f5e46c0a8c:8888/"
+		"python.dataScience.jupyterServerURI": "http://08f5e46c0a8c:8888/",
+		"jupyter.jupyterServerType": "remote"
 	}
 }
