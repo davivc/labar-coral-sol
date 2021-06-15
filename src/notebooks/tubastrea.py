@@ -1,4 +1,6 @@
 import traceback
+
+import numpy as np
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.io.img_tiles as cimgt
@@ -9,30 +11,34 @@ from shapely.geometry import box
 
 import pyproj
 
+from opendrift.models.oceandrift import OceanDrift
+from opendrift.models.oceandrift import Lagrangian3DArray
+from opendrift.models.oceandrift import LagrangianArray
+
 # Defining the larvae element properties
-class CoralLarvae(Lagrangian3DArray):
+class CoralLarvae(LagrangianArray):
     """Extending LagrangianArray for elements moving in 3 dimensions
     The Particle may be buoyant and/or subject to vertical mixing
     buoyant bahaviour is described by terminal velocity
     """
 
-    variables = Lagrangian3DArray.add_variables([
-        ('predation_probability', {
-            'dtype': np.float32, 'units': '1/h', 'default': 0.1,
-            'description': 'Probability per hour that a larvae may be predated'            
-        }),
-        ('death_probability', {
-            'dtype': np.float32, 'units': '1/h', 'default': 0.1,
-            'description': 'Probability per hour that a larvae may die by a random reason'
-        }),
-        ('jibe_probability', {
-            'dtype': np.float32, 'units': '1/h', 'default': 0.04,
-            'description': 'Probability per hour that a larvae may change orientation (jibing)'
-        }),
-        ('drag', {'dtype': np.float32, 'units': '1', 'default': 1,
-            'description': 'Relationship between larvae velocity and current velocity (ie. 1 means that larvae moves in the same velocity as the ocean current)'
-        }),
-    ])
+    # variables = Lagrangian3DArray.add_variables([
+    #     ('predation_probability', {
+    #         'dtype': np.float32, 'units': '1/h', 'default': 0.1,
+    #         'description': 'Probability per hour that a larvae may be predated'            
+    #     }),
+    #     ('death_probability', {
+    #         'dtype': np.float32, 'units': '1/h', 'default': 0.1,
+    #         'description': 'Probability per hour that a larvae may die by a random reason'
+    #     }),
+    #     ('jibe_probability', {
+    #         'dtype': np.float32, 'units': '1/h', 'default': 0.04,
+    #         'description': 'Probability per hour that a larvae may change orientation (jibing)'
+    #     }),
+    #     ('drag', {'dtype': np.float32, 'units': '1', 'default': 1,
+    #         'description': 'Relationship between larvae velocity and current velocity (ie. 1 means that larvae moves in the same velocity as the ocean current)'
+    #     }),
+    # ])
     
 
 class Tubastrea(OceanDrift):
@@ -70,13 +76,13 @@ class Tubastrea(OceanDrift):
         self.set_config('seed:ocean_only', True)
 
         # Vertical mixing is disabled by default
-        self.set_config('drift:vertical_mixing', False)
-        self.set_config('drift:vertical_advection', False)
+        # self.set_config('drift:vertical_mixing', False)
+        # self.set_config('drift:vertical_advection', False)
 
-        self.set_config({
-            'seed:drag': {'type': 'float',
-                'default': 0.04, 'min': 0, 'max': 1},
-            })
+        # self.set_config({
+        #     'seed:drag': {'type': 'float',
+        #         'default': 0.04, 'min': 0, 'max': 1},
+        #     })
         
     def get_reef_mask(self, shape_name='shape'):
         self.priority_list['land_binary_mask'] = [shape_name]
