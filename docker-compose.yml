@@ -39,20 +39,12 @@ services:
       - ./data:/code/data
     networks:
       ecs-local-network: null
-  parcels:
+  tubastraea_notebook:
     build: 
       context: ./docker
-      dockerfile: ./parcels.Dockerfile
-    image: davicandido/python-condas-parcels
-    # deploy:
-    #   resources:
-    #     limits:
-    #       cpus: '8'
-    #       memory: 8192M
-    #     reservations:
-    #       cpus: '4'
-    #       memory: 4096M
-    container_name: parcels
+      dockerfile: ./notebook.Dockerfile
+    image: davicandido/python-condas-notebook
+    container_name: tubastraea_notebook
     stdin_open: true
     tty: true
     env_file: .env

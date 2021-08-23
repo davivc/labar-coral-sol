@@ -38,12 +38,15 @@ RUN apt-get install -y netcdf-bin libnetcdf-dev libnetcdff-dev
 RUN apt-get install -y openmpi-bin libopenmpi-dev
 RUN apt-get install -y libnetcdff-dev
 RUN apt-get install -y wget
+RUN apt-get install -y dos2unix
 RUN rm -rf /var/lib/apt/lists/*
 
 RUN cd ~
 
 ADD ./install_esmf.sh ./install_esmf.sh 
-RUN chmod a+x install_esmf.sh
+
+RUN dos2unix ./install_esmf.sh 
+RUN chmod a+x ./install_esmf.sh
 RUN ./install_esmf.sh
 
 # Libs for regridding

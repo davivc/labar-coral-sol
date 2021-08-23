@@ -13,3 +13,6 @@ c.NotebookApp.tornado_settings = {
         'Content-Security-Policy': "frame-ancestors 'self' *"
     }
 }
+
+c.InteractiveShellApp.extensions = ['autoreload']     
+c.InteractiveShellApp.exec_lines = ['%autoreload 2']

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # installing ESMF on Ubuntu Linux
 
 
