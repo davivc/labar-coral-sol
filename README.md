@@ -2,21 +2,50 @@
 
 ## Pre-requisites
 
-To run the following steps you must have Docker installed on your computer and clone the repository.
+* Git
+* Docker
+* Some python knowledge and jupyter notebooks
+
+Now clone the repository and follow the instructions.
 
 ```
 git clone git@github.com:davivc/labar-coral-sol.git
 cd labar-coral-sol
 ```
 
-## 1. Build the containers
+## 1. Services and containers
 
-To download images and build containers run this command. This step will take some time (maybe a couple hours)
+In this project we define 3 services for different tasks inside the `docker-compose.yml` file. Each task will run in its specific container.
+
+* getdata: this service is responsible to download the netCDF files from https://resources.marine.copernicus.eu/. 
+* regridnetcdf: this service is responsible to regrid the downloaded netCDF files to a smaller scale
+* tubastraea_notebook: this service will hold the code and the jupyter notebooks for our model
+
+*Warning*: To run the codes inside the notebook you must have the regrided netcdf files. So you must run the first 2 containers at least one time to fetch the data and regrid it. After that you can execute the notebook whenever you want.
+
+## 2. Build the containers
+
+To run the code we first need download images and build containers. This step will take some time (maybe a couple hours depending on your internet and RAM Memory)
+
+This command will build all 3 containers
 ```
 docker-compose build
 ```
 
-## 2. Download the data
+You can also build each one at a time
+```
+docker-compose build getdata
+```
+
+```
+docker-compose build regridnetcdf
+```
+
+```
+docker-compose build tabastraea_notebook
+```
+
+## 3. Download the data
 
 To retrieve the data first copy the file `.env-example` to `.env` and change the credentials for Copernicus. If you don't have and account you can create here at https://resources.marine.copernicus.eu/?option=com_sla. After that change the credentials in the `.env` file to your credentials
 
@@ -32,7 +61,7 @@ docker-compose run --rm getdata
 This command will retrieve nc data from 1993 to 2018 for the variables thetao, uo, vo and zos and depth between 0.493 and 21.599. However you can change the file `docker/getdata.sh` to retrieve different data. After the changes build the container again and execute the command above.
 
 
-## 3. Regridding
+## 4. Regridding
 Run regrid to downscale NetCDF files. This step will regrid the nc files from ~9km to 3km, then 3km to 1km and finally will regrid 1km to 500m. It will take approximately 10 minutes on a pc with 16GB RAM.
 
 ```
@@ -44,10 +73,10 @@ Or you can select one year only
 docker-compose run --rm regridnetcdf regrid.py YEAR
 ```
 
-## 4. Start the notebooks
+## 5. Start the notebooks
 
 ```
-docker-compose up
+docker-compose up tubastraea_notebook
 ```
 
 After that go to the url shown in your terminal and navigate through the notebooks.

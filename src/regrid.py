@@ -185,57 +185,57 @@ def main(argv):
 
         print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
 
-        # Define the output grid
-        print('Defining output grid of 500m')
-        lat = cf.DimensionCoordinate(data=cf.Data(np.arange(new_lat[0], new_lat[1], base_step/18), 'degreesN'))
-        lon = cf.DimensionCoordinate(data=cf.Data(np.arange(new_long[0], new_long[1], base_step/18), 'degreesE'))
-        # Regrid the field
-        print('Regriding 1km to 500m for uo...')
-        grid_500m_uo = grid_1km_uo.regrids({'latitude': lat, 'longitude': lon}, method='linear')
-        print('Writing nc file for regrided 500m uo...')
-        cf.write(grid_500m_uo, '{0}/04_500m_regrid/grid_uo-{1}.nc'.format(base_folder, year))
+        # # Define the output grid
+        # print('Defining output grid of 500m')
+        # lat = cf.DimensionCoordinate(data=cf.Data(np.arange(new_lat[0], new_lat[1], base_step/18), 'degreesN'))
+        # lon = cf.DimensionCoordinate(data=cf.Data(np.arange(new_long[0], new_long[1], base_step/18), 'degreesE'))
+        # # Regrid the field
+        # print('Regriding 1km to 500m for uo...')
+        # grid_500m_uo = grid_1km_uo.regrids({'latitude': lat, 'longitude': lon}, method='linear')
+        # print('Writing nc file for regrided 500m uo...')
+        # cf.write(grid_500m_uo, '{0}/04_500m_regrid/grid_uo-{1}.nc'.format(base_folder, year))
 
-        del grid_1km_uo
-        del grid_500m_uo
-        print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
+        # del grid_1km_uo
+        # del grid_500m_uo
+        # print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
 
-        print('Regriding 1km to 500m for vo...')
-        grid_500m_vo = grid_1km_vo.regrids({'latitude': lat, 'longitude': lon}, method='linear')
-        print('Writing nc file for regrided 500m vo...')
-        cf.write(grid_500m_vo, '{0}/04_500m_regrid/grid_vo-{1}.nc'.format(base_folder, year))
+        # print('Regriding 1km to 500m for vo...')
+        # grid_500m_vo = grid_1km_vo.regrids({'latitude': lat, 'longitude': lon}, method='linear')
+        # print('Writing nc file for regrided 500m vo...')
+        # cf.write(grid_500m_vo, '{0}/04_500m_regrid/grid_vo-{1}.nc'.format(base_folder, year))
 
-        del grid_1km_vo
-        del grid_500m_vo
-        print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
+        # del grid_1km_vo
+        # del grid_500m_vo
+        # print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
 
-        print('Regriding 1km to 500m for temp...')
-        grid_500m_temp = grid_1km_temp.regrids({'latitude': lat, 'longitude': lon}, method='linear')
-        print('Writing nc file for regrided 500m temp...')
-        cf.write(grid_500m_temp, '{0}/04_500m_regrid/grid_temp-{1}.nc'.format(base_folder, year))
+        # print('Regriding 1km to 500m for temp...')
+        # grid_500m_temp = grid_1km_temp.regrids({'latitude': lat, 'longitude': lon}, method='linear')
+        # print('Writing nc file for regrided 500m temp...')
+        # cf.write(grid_500m_temp, '{0}/04_500m_regrid/grid_temp-{1}.nc'.format(base_folder, year))
         
-        del grid_1km_temp
-        del grid_500m_temp
-        print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
+        # del grid_1km_temp
+        # del grid_500m_temp
+        # print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
 
-        # Joining data
-        print('Joining data for 500m grid...')
-        nc_file_dst = '{0}/05_500m_regrid_joined/grid_{1}.nc'.format(base_folder, year)
-        nc_file_uo = '{0}/04_500m_regrid/grid_uo-{1}.nc'.format(base_folder, year)
-        toinclude = ["time","depth","latitude","longitude","uo"]
-        rewriteNetCDF(nc_file_uo, nc_file_dst, toinclude)
-        del nc_file_uo
+        # # Joining data
+        # print('Joining data for 500m grid...')
+        # nc_file_dst = '{0}/05_500m_regrid_joined/grid_{1}.nc'.format(base_folder, year)
+        # nc_file_uo = '{0}/04_500m_regrid/grid_uo-{1}.nc'.format(base_folder, year)
+        # toinclude = ["time","depth","latitude","longitude","uo"]
+        # rewriteNetCDF(nc_file_uo, nc_file_dst, toinclude)
+        # del nc_file_uo
 
-        nc_file_vo = '{0}/04_500m_regrid/grid_vo-{1}.nc'.format(base_folder, year)
-        toinclude = ["vo"]
-        rewriteNetCDF(nc_file_vo, nc_file_dst, toinclude)
-        del nc_file_vo
+        # nc_file_vo = '{0}/04_500m_regrid/grid_vo-{1}.nc'.format(base_folder, year)
+        # toinclude = ["vo"]
+        # rewriteNetCDF(nc_file_vo, nc_file_dst, toinclude)
+        # del nc_file_vo
         
-        nc_file_temp = '{0}/04_500m_regrid/grid_temp-{1}.nc'.format(base_folder, year)
-        toinclude = ["thetao"]
-        rewriteNetCDF(nc_file_temp, nc_file_dst, toinclude)
-        del nc_file_temp
+        # nc_file_temp = '{0}/04_500m_regrid/grid_temp-{1}.nc'.format(base_folder, year)
+        # toinclude = ["thetao"]
+        # rewriteNetCDF(nc_file_temp, nc_file_dst, toinclude)
+        # del nc_file_temp
 
-        del nc_file_dst
+        # del nc_file_dst
 
         print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
         gc.collect()

@@ -30,4 +30,4 @@ ADD ./getdata.sh ./getdata.sh
 RUN dos2unix ./getdata.sh
 RUN chmod a+x ./getdata.sh
 
-# CMD [ "/bin/bash" , "./getdata.sh"]
+CMD [ "/bin/bash" , "./getdata.sh"]

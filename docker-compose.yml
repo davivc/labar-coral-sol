@@ -8,11 +8,6 @@ services:
     container_name: getdata
     stdin_open: true
     tty: true
-    entrypoint:
-      - /bin/bash
-    # command:
-    #   - /bin/bash
-    #   - getdata.sh
     env_file: .env
     environment: 
       COMPOSE_CONVERT_WINDOWS_PATHS: 1
@@ -29,7 +24,7 @@ services:
     stdin_open: true
     tty: true
     entrypoint:
-      - python3
+      - /bin/bash
     environment: 
       COMPOSE_CONVERT_WINDOWS_PATHS: 1
     ports:
