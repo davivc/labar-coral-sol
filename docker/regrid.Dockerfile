@@ -1,14 +1,23 @@
-FROM python:3.8-slim
+# FROM python:3.8-slim
+FROM cccma/esmf:latest
 
-# Install packages needed to run your application (not build deps):
-#   mime-support -- for mime types when serving static files
-#   postgresql-client -- for running database commands
-# We need to recreate the /usr/share/man/man{1..8} directories first because
-# they were clobbered by a parent image.
+
+RUN apt update
+RUN apt install -y software-properties-common
+
+RUN add-apt-repository ppa:deadsnakes/ppa
+RUN apt update
+
+RUN apt install -y python3.7
+
+ENV PYTHONUNBUFFERED 1
+
 RUN set -ex \
     && RUN_DEPS=" \
-    libpcre3 \
     build-essential \
+    python3-pip \
+    python3-dev \
+    libpcre3 \
     libpcre3-dev \
     libpq-dev \
     mime-support \
@@ -19,41 +28,32 @@ RUN set -ex \
     proj-data \
     proj-bin \
     libgeos-dev \
+    python3-setuptools \
     " \
     && seq 1 8 | xargs -I{} mkdir -p /usr/share/man/man{} \
     && apt-get update && apt-get install -y --no-install-recommends $RUN_DEPS
 
-# Libs for Data Science
+# # Libs for Data Science
 ENV PIP_DEFAULT_TIMEOUT 100
-RUN pip install cython
-RUN pip install numpy
-RUN pip install pandas
-RUN pip install cartopy
-
-
-# Install ESMF and ESMPy
-RUN apt-get install -y git tcsh pkg-config
-RUN apt-get install -y gfortran
-RUN apt-get install -y netcdf-bin libnetcdf-dev libnetcdff-dev
-RUN apt-get install -y openmpi-bin libopenmpi-dev
-RUN apt-get install -y libnetcdff-dev
-RUN apt-get install -y wget
-RUN apt-get install -y dos2unix
-RUN rm -rf /var/lib/apt/lists/*
-
-RUN cd ~
-
-ADD ./install_esmf.sh ./install_esmf.sh 
-
-RUN dos2unix ./install_esmf.sh 
-RUN chmod a+x ./install_esmf.sh
-RUN ./install_esmf.sh
+RUN pip3 install wheel
+RUN pip3 install --upgrade setuptools
+RUN pip3 install cython
+RUN pip3 install numpy
+RUN pip3 install pandas
+# RUN pip install cartopy
 
 # Libs for regridding
-RUN pip install cf-python
-RUN pip install cf-plot
-RUN pip install netCDF4
-RUN pip uninstall -y shapely && pip install shapely --no-binary shapely
+RUN pip3 install cf-python
+RUN pip3 install cf-plot
+RUN pip3 install netCDF4
+RUN pip3 uninstall -y shapely && pip3 install shapely --no-binary shapely
+
+# Install ESMPy
+WORKDIR /usr/src/
+RUN git clone https://github.com/esmf-org/esmf && cd esmf && git checkout ESMF_8_0_1 && cd src/addon/ESMPy/
+WORKDIR /usr/src/esmf/src/addon/ESMPy/
+RUN python3 setup.py build --ESMFMKFILE=/usr/local/lib/esmf.mk
+RUN python3 setup.py install
 
 # Ensure that Python outputs everything that's printed inside
 # the application rather than buffering it.
@@ -65,4 +65,4 @@ ADD . /code
 
 WORKDIR /code
 
-ENTRYPOINT [ "python" ]
+ENTRYPOINT [ "python3" ]
