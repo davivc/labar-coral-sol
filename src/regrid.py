@@ -4,9 +4,9 @@ import numpy as np
 import cf
 import cfplot as cfp
 import matplotlib as mpl
-import psutil
+# import psutil
 import gc
-process = psutil.Process(os.getpid())
+# process = psutil.Process(os.getpid())
 
 if os.environ.get('DISPLAY','') == '':
     print('no display found. Using non-interactive Agg backend')
@@ -32,7 +32,7 @@ def main(argv):
         lats = nc_fid.variables['latitude'][:]  # extract/copy the data
         lons = nc_fid.variables['longitude'][:]
 
-        print('Memory: ', process.memory_info().rss)
+        # print('Memory: ', process.memory_info().rss)
 
         base_step = 0.083
         new_lat = [-30, -25]
@@ -47,7 +47,7 @@ def main(argv):
         grid_9km_uo = cf.read(nc_file, select='eastward_sea_water_velocity')[0]
         grid_9km_vo = cf.read(nc_file, select='northward_sea_water_velocity')[0]
 
-        print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
+        # print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
 
         # Here we select only one depth because regridding all the resulting nc file is too large
         print('Loading one depth')
@@ -60,7 +60,7 @@ def main(argv):
         cf.write(grid_9km_vo, '{0}/01_9km_regrid/grid_vo-{1}.nc'.format(base_folder, year))
         cf.write(grid_9km_temp, '{0}/01_9km_regrid/grid_temp-{1}.nc'.format(base_folder, year))
 
-        print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
+        # print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
         # Joining data
         print('Joining data for 9km grid...')
         nc_file_dst = '{0}/01_9km_regrid_joined/grid_{1}.nc'.format(base_folder, year)
@@ -81,7 +81,7 @@ def main(argv):
 
         del nc_file_dst
 
-        print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
+        # print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
 
         # Define the output grid
         print('Defining output grid of 3km')
@@ -94,7 +94,7 @@ def main(argv):
         cf.write(grid_3km_uo, '{0}/02_3km_regrid/grid_uo-{1}.nc'.format(base_folder, year))
         
         del grid_9km_uo
-        print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
+        # print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
 
         print('Regriding 9km to 3km for vo...')
         grid_3km_vo = grid_9km_vo.regrids({'latitude': lat, 'longitude': lon}, method='linear')
@@ -102,7 +102,7 @@ def main(argv):
         cf.write(grid_3km_vo, '{0}/02_3km_regrid/grid_vo-{1}.nc'.format(base_folder, year))
 
         del grid_9km_vo
-        print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
+        # print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
 
         print('Regriding 9km to 3km for temp...')
         grid_3km_temp = grid_9km_temp.regrids({'latitude': lat, 'longitude': lon}, method='linear')
@@ -110,7 +110,7 @@ def main(argv):
         cf.write(grid_3km_temp, '{0}/02_3km_regrid/grid_temp-{1}.nc'.format(base_folder, year))
 
         del grid_9km_temp
-        print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
+        # print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
 
         # Joining data
         print('Joining data for 3km grid...')
@@ -132,7 +132,7 @@ def main(argv):
 
         del nc_file_dst
 
-        print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
+        # print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
 
         # Define the output grid
         print('Defining output grid of 1km')
@@ -145,7 +145,7 @@ def main(argv):
         cf.write(grid_1km_uo, '{0}/03_1km_regrid/grid_uo-{1}.nc'.format(base_folder, year))
 
         del grid_3km_uo
-        print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
+        # print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
 
         print('Regriding 3km to 1km for vo...')
         grid_1km_vo = grid_3km_vo.regrids({'latitude': lat, 'longitude': lon}, method='linear')
@@ -153,7 +153,7 @@ def main(argv):
         cf.write(grid_1km_vo, '{0}/03_1km_regrid/grid_vo-{1}.nc'.format(base_folder, year))
 
         del grid_3km_vo
-        print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
+        # print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
 
         print('Regriding 3km to 1km for temp...')
         grid_1km_temp = grid_3km_temp.regrids({'latitude': lat, 'longitude': lon}, method='linear')
@@ -161,7 +161,7 @@ def main(argv):
         cf.write(grid_1km_temp, '{0}/03_1km_regrid/grid_temp-{1}.nc'.format(base_folder, year))
 
         del grid_3km_temp
-        print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
+        # print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
 
         # Joining data
         print('Joining data for 1km grid...')
@@ -183,7 +183,7 @@ def main(argv):
 
         del nc_file_dst
 
-        print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
+        # print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
 
         # # Define the output grid
         # print('Defining output grid of 500m')
@@ -237,9 +237,9 @@ def main(argv):
 
         # del nc_file_dst
 
-        print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
+        # print('Memory: ', process.memory_info().rss / 1024 / 1024 ** 2)
         gc.collect()
-        print('Memory at garbage: ', process.memory_info().rss / 1024 / 1024 ** 2)
+        # print('Memory at garbage: ', process.memory_info().rss / 1024 / 1024 ** 2)
 
 def rewriteNetCDF(nc_file_src, nc_file_dst, toinclude=[]):
     try:
