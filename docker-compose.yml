@@ -24,7 +24,7 @@ services:
     stdin_open: true
     tty: true
     entrypoint:
-      - /bin/bash
+      - python3
     environment: 
       COMPOSE_CONVERT_WINDOWS_PATHS: 1
     ports:
