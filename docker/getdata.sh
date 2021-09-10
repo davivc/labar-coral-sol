@@ -20,7 +20,7 @@ do
         --variable thetao \
         --variable uo \
         --variable vo \
-        --out-dir "/code/data" \
+        --out-dir "/code/data/global-reanalysis-phy-001-030-daily/00_base" \
         --out-name "global-reanalysis-phy-001-030-daily-${i}.nc" \
         --user "${MOTU_USER}" \
         --pwd "${MOTU_PWD}"
