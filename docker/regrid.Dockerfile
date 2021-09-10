@@ -29,6 +29,7 @@ RUN set -ex \
     proj-bin \
     libgeos-dev \
     python3-setuptools \
+    dos2unix \
     " \
     && seq 1 8 | xargs -I{} mkdir -p /usr/share/man/man{} \
     && apt-get update && apt-get install -y --no-install-recommends $RUN_DEPS
